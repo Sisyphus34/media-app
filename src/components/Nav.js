@@ -41,7 +41,10 @@ const Nav = () => {
         Search
       </NavLink>
       <NavLink to="/interests" className="nav-item nav-link">
-        My Interests
+        Interests
+      </NavLink>
+      <NavLink to="/favorites" className="nav-item nav-link">
+        Favorites
       </NavLink>
       
     </nav>

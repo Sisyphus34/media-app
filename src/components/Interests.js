@@ -7,11 +7,11 @@ import AllInclusiveTwoToneIcon from "@material-ui/icons/AllInclusiveTwoTone";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import ListView from "components/Results/ListView";
-import FavoritesContext from 'contexts/FavoritesContext'
+import InterestsContext from 'contexts/InterestsContext'
 
-const Favorites = () => {
+const Interests = () => {
 
-  const {favorites, setFavorites} = React.useContext(FavoritesContext);
+  const { interests, setInterests } = React.useContext(InterestsContext)
 
   function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -58,7 +58,7 @@ const Favorites = () => {
             icon={<AllInclusiveTwoToneIcon />}
             label={
               <span className="badge badge-primary badge-pill">
-                Favorites {favorites.length}
+                INTERESTS {interests.length}
               </span>
             }
           />
@@ -66,9 +66,9 @@ const Favorites = () => {
         {/* Attempt to add all tab panels into a container with max width */}
 
         <TabPanel value={value} index={0}>
-          {favorites.map(item => {
+          {interests.map(item => {
             return (
-              <div key={favorites.Name}>
+              <div key={interests.Name}>
                 <ListView>{item}</ListView>
               </div>
             );
@@ -78,4 +78,4 @@ const Favorites = () => {
     </div>
   );
 };
-export default Favorites;
+export default Interests;

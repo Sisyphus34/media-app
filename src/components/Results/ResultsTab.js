@@ -6,9 +6,9 @@ import { makeStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import AllInclusiveTwoToneIcon from "@material-ui/icons/AllInclusiveTwoTone";
-import FavoriteTwoToneIcon from "@material-ui/icons/FavoriteTwoTone";
+import MicTwoToneIcon from "@material-ui/icons/MicTwoTone";
 import PersonPinTwoToneIcon from "@material-ui/icons/PersonPinTwoTone";
-import LibraryBooksTwoToneTwoToneIcon from "@material-ui/icons/LibraryBooksTwoTone";
+import LibraryBooksTwoToneIcon from "@material-ui/icons/LibraryBooksTwoTone";
 import LibraryMusicTwoToneIcon from "@material-ui/icons/LibraryMusicTwoTone";
 import VideoLibraryTwoToneIcon from "@material-ui/icons/VideoLibraryTwoTone";
 import TvTwoToneIcon from "@material-ui/icons/TvTwoTone";
@@ -25,12 +25,13 @@ const ResultsTab = () => {
   const [shows, setShows] = React.useState([]);
   const [movies, setMovies] = React.useState([]);
   const [artists, setArtists] = React.useState([]);
+  const [podcasts, setPodcasts] = React.useState([]);
   const [allResults, setAllResults] = React.useState([]);
 
   React.useEffect(() => {
     const API_get_request = ({ query }) => {
       return jsonp(
-        `https://tastedive.com/api/similar?info=1&q=${querySubmission}&k=341647-Shawn-X8PAO8XJ`,
+        `https://tastedive.com/api/similar?info=1&q=${querySubmission}&k=341647-Shawn-X8PAO8XJ&limit=50`,
         {},
         (err, response) => {
           if (err) return console.log(err);
@@ -50,6 +51,7 @@ const ResultsTab = () => {
     let movies = [];
     let shows = [];
     let artists = [];
+    let podcasts = [];
 
     data.map(media => {
       allResults.push(media);
@@ -63,6 +65,8 @@ const ResultsTab = () => {
         shows.push(media);
       } else if (media.Type === "music") {
         artists.push(media);
+      } else if (media.Type === "podcast") {
+        podcasts.push(media);
       }
     });
 
@@ -71,8 +75,9 @@ const ResultsTab = () => {
     setMovies(movies);
     setShows(shows);
     setArtists(artists);
+    setPodcasts(podcasts);
     setAllResults(allResults);
-    // console.log(allResults[0]);
+    // console.log(allResults);
   }, [data]);
 
   function TabPanel(props) {
@@ -142,7 +147,7 @@ const ResultsTab = () => {
             }
           />
           <Tab
-            icon={<LibraryBooksTwoToneTwoToneIcon />}
+            icon={<LibraryBooksTwoToneIcon />}
             label={
               <span className="badge badge-primary badge-pill">
                 BOOKS {books.length}
@@ -157,18 +162,20 @@ const ResultsTab = () => {
               </span>
             }
           />
+            <Tab
+              icon={<MicTwoToneIcon />}
+              label={
+                <span className="badge badge-primary badge-pill">
+                  PODCASTS {podcasts.length}
+                </span>
+              }
+            />
           <Tab
             icon={<TvTwoToneIcon />}
             label={
               <span className="badge badge-primary badge-pill">
                 SHOWS {shows.length}
               </span>
-            }
-          />
-          <Tab
-            icon={<FavoriteTwoToneIcon />}
-            label={
-              <span className="badge badge-primary badge-pill">FAVORITES</span>
             }
           />
         </Tabs>
@@ -178,7 +185,7 @@ const ResultsTab = () => {
           {allResults.map(result => {
             return (
               <div key={result.Name}>
-                {result.Name} - {result.Type.toUpperCase()};
+                <ListView>{result}</ListView>
               </div>
             );
           })}
@@ -187,17 +194,12 @@ const ResultsTab = () => {
           {artists.map(artist => {
             return (
               <div key={artist.Name}>
-                <ListView>{artist.Name}</ListView>
+                <ListView>{artist}</ListView>
               </div>
             );
           })}
         </TabPanel>
         <TabPanel value={value} index={2}>
-          {/* <div>
-                <ListView>
-                    {authors}
-                </ListView>
-            </div> */}
           {authors.map(author => {
             return (
               <div key={author.Name}>
@@ -210,7 +212,7 @@ const ResultsTab = () => {
           {books.map(book => {
             return (
               <div key={book.Name}>
-                <ListView>{book.Name}</ListView>
+                <ListView>{book}</ListView>
               </div>
             );
           })}
@@ -219,22 +221,28 @@ const ResultsTab = () => {
           {movies.map(movie => {
             return (
               <div key={movie.Name}>
-                <ListView>{movie.Name}</ListView>
+                <ListView>{movie}</ListView>
               </div>
             );
           })}
         </TabPanel>
         <TabPanel value={value} index={5}>
-          {shows.map(show => {
+          {podcasts.map(podcast => {
             return (
-              <div key={show.Name}>
-                <ListView>{show.Name}</ListView>
+              <div key={podcast.Name}>
+                <ListView>{podcast}</ListView>
               </div>
             );
           })}
         </TabPanel>
         <TabPanel value={value} index={6}>
-          No Favorites Yet
+          {shows.map(show => {
+            return (
+              <div key={show.Name}>
+                <ListView>{show}</ListView>
+              </div>
+            );
+          })}
         </TabPanel>
       </Paper>
     </div>
