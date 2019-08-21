@@ -112,7 +112,7 @@ const ResultsTab = () => {
   }
 
   return (
-    <div>
+    <div style={{ width: "auto" }}>
       <Paper square className={classes.root}>
         <Tabs
           value={value}
