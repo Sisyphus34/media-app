@@ -52,7 +52,13 @@ const ResultsTab = () => {
     let shows = [];
     let artists = [];
     let podcasts = [];
+    let infos = [];
 
+    info.map(info => {
+      if (info.Type !== "") {
+        infos.push(info);
+      }
+    });
     data.map(media => {
       allResults.push(media);
       if (media.Type === "author") {
@@ -70,6 +76,7 @@ const ResultsTab = () => {
       }
     });
 
+    setInfo(infos);
     setAuthors(authors);
     setBooks(books);
     setMovies(movies);
@@ -77,6 +84,7 @@ const ResultsTab = () => {
     setArtists(artists);
     setPodcasts(podcasts);
     setAllResults(allResults);
+    console.log("this is the info", info);
     // console.log(allResults);
   }, [data]);
 
@@ -162,14 +170,14 @@ const ResultsTab = () => {
               </span>
             }
           />
-            <Tab
-              icon={<MicTwoToneIcon />}
-              label={
-                <span className="badge badge-primary badge-pill">
-                  PODCASTS {podcasts.length}
-                </span>
-              }
-            />
+          <Tab
+            icon={<MicTwoToneIcon />}
+            label={
+              <span className="badge badge-primary badge-pill">
+                PODCASTS {podcasts.length}
+              </span>
+            }
+          />
           <Tab
             icon={<TvTwoToneIcon />}
             label={
@@ -177,6 +185,10 @@ const ResultsTab = () => {
                 SHOWS {shows.length}
               </span>
             }
+          />
+          <Tab
+            icon={<TvTwoToneIcon />}
+            label={<span className="badge badge-primary badge-pill">INFO</span>}
           />
         </Tabs>
         {/* Attempt to add all tab panels into a container with max width */}
@@ -240,6 +252,15 @@ const ResultsTab = () => {
             return (
               <div key={show.Name}>
                 <ListView>{show}</ListView>
+              </div>
+            );
+          })}
+        </TabPanel>
+        <TabPanel value={value} index={7}>
+          {info.map(info => {
+            return (
+              <div key={info.Name}>
+                <ListView>{info}</ListView>
               </div>
             );
           })}
